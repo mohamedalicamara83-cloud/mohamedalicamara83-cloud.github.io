@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restaurant</title>
+<meta name="description" content="">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+/* ============================================================
+   FICHE DU RESTAURANT — c'est la seule partie à modifier
+   ============================================================ */
+const R = {
+  nom: "Les Délices d'Italie",
+  accroche: "Pinsas romaines, arancini et spécialités siciliennes, à Bailly-Romainvilliers",
+  type: "Traiteur & trattoria italienne · Sur place · À emporter",
+  ville: "Bailly-Romainvilliers",
+  adresse: "69 boulevard des Sports, 77700 Bailly-Romainvilliers",
+  telephone: "09 53 44 65 13",
+  couleur: "#15803D",
+  photoPrincipale: "photos/bandeau.jpg",
+  presentation: "Aux Délices d'Italie, on cuisine comme en Italie : pinsas romaines à la pâte légère et croustillante, arancini siciliens dorés et garnis généreusement, lasagnes et douceurs maison. Une adresse de quartier à deux pas de Val d'Europe, pour une pause déjeuner ou un repas à emporter.",
+  points: ["Fait maison", "Recettes italiennes", "Sur place & à emporter", "Livraison", "Tickets restaurant acceptés"],
+  horaires: [
+    ["Du lundi au samedi", "11h00 – 19h00"]
+  ],
+  menu: [
+    { categorie: "Pinsas romaines", plats: [
+      ["Pinsa mortadelle & stracciatella", "Mortadelle et cœurs de stracciatella onctueuse", "14,90 €"],
+      ["Pinsa speck & mascarpone", "Speck fumé, mascarpone crémeux, roquette", "14,90 €"],
+      ["Pinsa chèvre miel", "Base tomate, chèvre fondant, filet de miel", "14,90 €"],
+      ["Pinsa jambon & champignons", "Sauce tomate, mozzarella fondue", "14,90 €"],
+      ["Pinsa chorizo", "Fromage fondu, chorizo, olives noires et vertes", "14,90 €"],
+      ["Pinsa jambon", "Sauce tomate, fromage fondant, jambon", "14,90 €"],
+      ["Pinsa fromage", "Sauce tomate, généreusement couverte de fromage", "14,90 €"]
+    ]},
+    { categorie: "Arancini", plats: [
+      ["Arancini viande", "Viande hachée, fromage filant et petits pois", "6,90 €"],
+      ["Arancini au fromage", "Cœur de fromage fondant", "6,90 €"],
+      ["Arancini jambon", "Jambon et fromage fondant", "6,90 €"],
+      ["Arancini aubergines", "Aubergine et cœur fondant", "6,90 €"]
+    ]},
+    { categorie: "Desserts & boissons", plats: [
+      ["Torta ricotta", "Gâteau moelleux à la ricotta", "7,90 €"],
+      ["Limonades italiennes", "Chinotto, mandarine, arancia", "3,90 €"],
+      ["San Pellegrino", "", "2,90 €"],
+      ["Sodas", "Coca-Cola, Coca-Cola zéro, Sprite", "2,90 €"]
+    ]}
+  ],
+  galerie: [
+    "photos/pinsa-mortadelle.jpg",
+    "photos/arancini-viande.jpg",
+    "photos/pinsa-champignons.jpg",
+    "photos/arancini-fromage.jpg",
+    "photos/pinsa-speck.jpg",
+    "photos/pinsa-chevre-miel.jpg"
+  ],
+  liens: {
+    ubereats: "https://www.ubereats.com/fr/store/les-delices-ditalie-de-bailly/aQpTuGa4WmqAXtnpMbbAlA",
+    deliveroo: "",
+    instagram: "",
+    facebook: ""
+  },
+  signature: "Site réalisé par Mohamed Ali Camara"
+};
+</script>
+<style>
+:root{
+  --c: #C2410C;
+  --ink:#1c1917; --muted:#57534e; --bg:#fffaf5; --card:#ffffff; --line:#eadfd3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.1}
+
+/* barre du haut */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,250,245,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+.logo{font-family:Fraunces,serif;font-weight:800;font-size:1.15rem;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav{display:flex;gap:22px;font-size:.92rem;font-weight:500}
+.nav a{text-decoration:none;color:var(--muted)}
+.nav a:hover{color:var(--c)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--c);color:#fff;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:999px;font-size:.95rem;border:0;white-space:nowrap}
+.btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.7)}
+.btn.small{padding:9px 16px;font-size:.88rem}
+
+/* bandeau principal */
+.hero{position:relative;min-height:78vh;display:flex;align-items:flex-end;color:#fff;overflow:hidden}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.75) 100%)}
+.hero .wrap{position:relative;z-index:1;padding-bottom:64px;padding-top:120px}
+.hero .type{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;opacity:.9;margin-bottom:12px}
+.hero h1{font-size:clamp(2.4rem,7vw,4.6rem);font-weight:800;max-width:14ch}
+.hero p{font-size:1.15rem;margin:14px 0 28px;max-width:40ch;opacity:.95}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+
+section{padding:80px 0}
+.eyebrow{color:var(--c);font-weight:600;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+h2{font-size:clamp(1.9rem,4vw,2.6rem);margin-bottom:18px}
+
+/* présentation */
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center}
+.about p{color:var(--muted);font-size:1.08rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{border:1px solid var(--line);background:var(--card);padding:7px 14px;border-radius:999px;font-size:.88rem;font-weight:500}
+.about img{border-radius:20px;aspect-ratio:4/5;object-fit:cover;width:100%}
+
+/* menu */
+.menu{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 30px}
+.tab{border:1px solid var(--line);background:var(--bg);padding:9px 18px;border-radius:999px;font:inherit;font-weight:600;font-size:.9rem;cursor:pointer;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--c);border-color:var(--c);color:#fff}
+.dishes{display:grid;grid-template-columns:1fr 1fr;gap:6px 48px}
+.dish{display:flex;gap:12px;align-items:baseline;padding:16px 0;border-bottom:1px dashed var(--line)}
+.dish h3{font-family:Inter,sans-serif;font-size:1.02rem;font-weight:600}
+.dish p{color:var(--muted);font-size:.9rem}
+.dish .dots{flex:1}
+.dish .price{font-weight:700;color:var(--c);white-space:nowrap}
+
+/* galerie */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gallery img{border-radius:16px;aspect-ratio:1;object-fit:cover;width:100%}
+
+/* infos pratiques */
+.info{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px}
+.box h3{font-size:1.4rem;margin-bottom:16px}
+.hours div{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.hours div:last-child{border:0}
+.hours span:first-child{font-weight:600}
+.hours span:last-child{color:var(--muted);text-align:right}
+.box p{color:var(--muted);margin-bottom:8px}
+.box .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn.light{background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+.map{margin-top:18px;border-radius:14px;overflow:hidden;border:1px solid var(--line);height:220px}
+.map iframe{width:100%;height:100%;border:0}
+
+footer{background:var(--ink);color:#d6d3d1;padding:40px 0 100px;font-size:.9rem}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer a{text-decoration:none;color:#fff}
+.socials{display:flex;gap:16px}
+.credit{opacity:.55;font-size:.8rem;margin-top:6px}
+
+/* bouton d'appel fixe sur téléphone */
+.callbar{display:none}
+
+@media (max-width:760px){
+  .nav{display:none}
+  .about,.info,.dishes{grid-template-columns:1fr}
+  .about img{aspect-ratio:16/10}
+  .gallery{grid-template-columns:1fr 1fr}
+  .gallery img:first-child{grid-column:1/-1;aspect-ratio:16/10}
+  section{padding:60px 0}
+  .hero{min-height:72vh}
+  .callbar{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:30;gap:10px}
+  .callbar .btn{flex:1;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .top .btn{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a href="#" class="logo" id="logo"></a>
+    <nav class="nav">
+      <a href="#apropos">Le restaurant</a>
+      <a href="#menu">La carte</a>
+      <a href="#infos">Horaires & accès</a>
+    </nav>
+    <a class="btn small" id="topCall"></a>
+  </div>
+</header>
+
+<div class="hero">
+  <img id="heroImg" alt="">
+  <div class="wrap">
+    <div class="type" id="type"></div>
+    <h1 id="nom"></h1>
+    <p id="accroche"></p>
+    <div class="ctas">
+      <a href="#menu" class="btn">Voir la carte</a>
+      <a class="btn ghost" id="heroCall"></a>
+    </div>
+  </div>
+</div>
+
+<section id="apropos">
+  <div class="wrap about">
+    <div>
+      <div class="eyebrow">Bienvenue</div>
+      <h2 id="aboutTitle"></h2>
+      <p id="presentation"></p>
+      <div class="chips" id="points"></div>
+    </div>
+    <img id="aboutImg" alt="">
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="eyebrow">La carte</div>
+    <h2>Nos plats</h2>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="dishes" id="dishes"></div>
+  </div>
+</section>
+
+<section id="galerie">
+  <div class="wrap">
+    <div class="eyebrow">En images</div>
+    <h2>Un aperçu de notre cuisine</h2>
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<section id="infos" style="padding-top:0">
+  <div class="wrap info">
+    <div class="box">
+      <h3>Horaires</h3>
+      <div class="hours" id="hours"></div>
+    </div>
+    <div class="box">
+      <h3>Nous trouver</h3>
+      <p id="adresse"></p>
+      <p id="tel"></p>
+      <div class="map"><iframe id="map" loading="lazy" title="Plan d'accès"></iframe></div>
+      <div class="btns" id="orderBtns"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div style="font-family:Fraunces,serif;font-size:1.2rem;color:#fff" id="footName"></div>
+      <div id="footAddr"></div>
+      <div class="credit" id="credit"></div>
+    </div>
+    <div class="socials" id="socials"></div>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="btn" id="barCall">Appeler</a>
+  <a class="btn light" href="#menu">La carte</a>
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const tel = "tel:" + R.telephone.replace(/\s/g,"");
+  document.documentElement.style.setProperty("--c", R.couleur);
+  document.title = R.nom + " · " + R.ville;
+  document.querySelector('meta[name="description"]').content = R.nom + " à " + R.ville + " — " + R.accroche;
+
+  $("logo").textContent = R.nom;
+  $("nom").textContent = R.nom;
+  $("type").textContent = R.type;
+  $("accroche").textContent = R.accroche;
+  $("heroImg").src = R.photoPrincipale;
+  $("aboutImg").src = R.galerie[0] || R.photoPrincipale;
+  $("aboutTitle").textContent = "Une adresse à " + R.ville;
+  $("presentation").textContent = R.presentation;
+  $("points").innerHTML = R.points.map(p => `<span class="chip">${p}</span>`).join("");
+
+  ["topCall","heroCall","barCall"].forEach(id => { $(id).href = tel; });
+  $("topCall").textContent = "Appeler";
+  $("heroCall").textContent = "Appeler · " + R.telephone;
+
+  // carte avec onglets
+  const tabs = $("tabs"), dishes = $("dishes");
+  function show(i){
+    [...tabs.children].forEach((b,j)=>b.setAttribute("aria-selected", i===j));
+    dishes.innerHTML = R.menu[i].plats.map(([n,d,p]) =>
+      `<div class="dish"><div><h3>${n}</h3>${d?`<p>${d}</p>`:""}</div><span class="dots"></span><span class="price">${p}</span></div>`
+    ).join("");
+  }
+  R.menu.forEach((c,i)=>{
+    const b = document.createElement("button");
+    b.className = "tab"; b.role = "tab"; b.textContent = c.categorie;
+    b.onclick = () => show(i);
+    tabs.appendChild(b);
+  });
+  show(0);
+
+  $("gallery").innerHTML = R.galerie.map(src => `<img src="${src}" alt="" loading="lazy">`).join("");
+  $("hours").innerHTML = R.horaires.map(([j,h]) => `<div><span>${j}</span><span>${h}</span></div>`).join("");
+  $("adresse").textContent = R.adresse;
+  $("tel").innerHTML = `<a href="${tel}">${R.telephone}</a>`;
+  $("map").src = "https://www.google.com/maps?q=" + encodeURIComponent(R.nom + " " + R.adresse) + "&output=embed";
+
+  const L = R.liens, order = [];
+  order.push(`<a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(R.adresse)}" target="_blank" rel="noopener">Itinéraire</a>`);
+  if (L.ubereats) order.push(`<a class="btn light" href="${L.ubereats}" target="_blank" rel="noopener">Uber Eats</a>`);
+  if (L.deliveroo) order.push(`<a class="btn light" href="${L.deliveroo}" target="_blank" rel="noopener">Deliveroo</a>`);
+  $("orderBtns").innerHTML = order.join("");
+
+  $("footName").textContent = R.nom;
+  $("footAddr").textContent = R.adresse + " · " + R.telephone;
+  $("credit").textContent = R.signature;
+  const s = [];
+  if (L.instagram) s.push(`<a href="${L.instagram}" target="_blank" rel="noopener">Instagram</a>`);
+  if (L.facebook) s.push(`<a href="${L.facebook}" target="_blank" rel="noopener">Facebook</a>`);
+  $("socials").innerHTML = s.join("");
+})();
+</script>
+</body>
+</html>

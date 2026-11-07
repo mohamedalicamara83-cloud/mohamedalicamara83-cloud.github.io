@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OCD Live · Réserve ton live</title>
+<meta name="description" content="Réserve ton live OCD Live : en présentiel à Lomé ou à distance, partout en Afrique et dans le monde.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#E2702B">
+<script>
+/* ==========================================================
+   RÉGLAGES OCD LIVE — la seule partie à modifier
+   ========================================================== */
+const OCD = {
+  // Numéro WhatsApp qui reçoit les réservations (format international, sans espaces ni +)
+  whatsapp: "",
+  // Adresse e-mail qui reçoit aussi les réservations
+  email: "",
+  devise: "FCFA",
+  // Mois ouvert à la réservation (0 = janvier … 11 = décembre)
+  annee: 2026, mois: 11, premierJour: 1,
+  // Créneaux de départ possibles dans une journée
+  creneaux: ["08:00","09:30","11:00","12:30","14:00","15:30","17:00","18:30","20:00"],
+  // Les paquets (durée en minutes ; "jours" = nombre de lives inclus)
+  paquets: [
+    { id:"express", parHeure:true, nom:"Live Express", duree:90, prix:15000, lives:1,
+      plus:["1 h 30 de live","Régie OCD Live","Diffusé sur House of Challenge"] },
+    { id:"demi", parHeure:true, nom:"Demi-journée", duree:240, prix:35000, lives:1, badge:"Le plus rentable",
+      plus:["4 h de live","Moins cher à l'heure","Idéal pour vendre tout ton stock"] },
+    { id:"annonce", nom:"Live + Annonce OCD", duree:90, prix:50000, lives:1, badge:"Le plus vu",
+      plus:["OCD Live annonce ton live sur son compte","1 h 30 de live","Ta vidéo publiée avant le live"] },
+    { id:"journee", parHeure:true, nom:"Journée complète", duree:480, prix:60000, lives:1,
+      plus:["8 h de live","Pause comprise","Pour les gros lancements"] },
+    { id:"semaine", nom:"Pack Semaine", duree:90, prix:65000, lives:5,
+      plus:["5 lives de 1 h 30","Même heure, 5 jours de suite","Tes clients prennent l'habitude"] },
+    { id:"mois", nom:"Pack du Mois", duree:90, prix:200000, lives:20, badge:"Premium",
+      plus:["20 lives de 1 h 30","2 annonces sur le compte OCD Live","Ton numéro épinglé à chaque live"] }
+  ],
+  activites: ["Nourriture et boissons","Mode et vêtements","Beauté et cosmétiques","Électronique et téléphones","Maison et décoration","Services","Agriculture","Autre"]
+};
+</script>
+<style>
+:root{
+  --o:#E2702B; --o2:#F28A3F; --od:#B9541A; --ink:#1B1612; --mut:#6B625A; --bg:#FBF7F3;
+  --card:#fff; --line:#EDE3DA; --soft:#FCEBDD; --ok:#1F8A4C; --r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+
+/* en-tête */
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.logo{display:flex;align-items:baseline;gap:6px;font-weight:900;letter-spacing:-.5px}
+.logo b{font-size:1.45rem;color:var(--o);letter-spacing:-1px}
+.logo span{font-size:1.05rem}
+.steps{display:flex;gap:4px}
+.steps i{width:18px;height:5px;border-radius:9px;background:var(--line);transition:.25s}
+.steps i.on{background:var(--o)}
+
+/* accueil */
+.hero{background:radial-gradient(120% 90% at 50% 0%,#FFE3CC 0%,var(--bg) 70%);padding:28px 0 8px;text-align:center}
+.direct{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:7px 14px;font-weight:900;font-size:.8rem;letter-spacing:1px;margin-bottom:14px;box-shadow:0 4px 14px rgba(80,40,10,.07)}
+.direct i{width:10px;height:10px;border-radius:50%;background:#E5322D;animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(229,50,45,.55)}100%{box-shadow:0 0 0 10px rgba(229,50,45,0)}}
+.hero h1{font-size:1.75rem;line-height:1.15;font-weight:900;letter-spacing:-.6px}
+.hero h1 em{font-style:normal;color:var(--o)}
+.hero p{color:var(--mut);margin:10px auto 0;max-width:30ch}
+.choix{display:grid;gap:14px;margin:22px 0 10px}
+.cat{display:flex;gap:14px;align-items:center;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:var(--r);padding:18px;transition:.15s;box-shadow:0 6px 18px rgba(80,40,10,.06)}
+.cat:active{transform:scale(.985)}
+.cat:hover{border-color:var(--o2)}
+.cat .ic{flex:none;width:56px;height:56px;border-radius:16px;background:var(--soft);display:grid;place-items:center;font-size:1.7rem}
+.cat h2{font-size:1.12rem;font-weight:800}
+.cat p{font-size:.92rem;color:var(--mut);margin-top:2px}
+.cat .go{margin-left:auto;font-size:1.4rem;color:var(--o);font-weight:900}
+.atouts{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;color:var(--mut);font-size:.84rem;margin:14px 0 26px}
+
+/* étapes */
+.step{display:none;padding:20px 0 120px}
+.step.on{display:block;animation:in .25s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--mut);font-weight:600;font-size:.92rem;margin-bottom:10px}
+.step h2{font-size:1.4rem;font-weight:900;letter-spacing:-.4px}
+.step .sub{color:var(--mut);margin:4px 0 18px}
+.pill{display:inline-block;background:var(--soft);color:var(--od);font-weight:700;font-size:.8rem;padding:5px 10px;border-radius:99px;margin-bottom:10px}
+
+/* calendrier */
+.cal{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.cal .mois{font-weight:800;text-align:center;margin-bottom:10px;text-transform:capitalize}
+.grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.grid7 .dn{font-size:.72rem;color:var(--mut);font-weight:700;padding-bottom:2px}
+.day{aspect-ratio:1;border-radius:12px;font-weight:700;background:var(--bg);border:1.5px solid transparent;font-size:.98rem}
+.day:hover{border-color:var(--o2)}
+.day.sel{background:var(--o);color:#fff}
+.day:disabled{opacity:.28;cursor:default;background:none}
+
+/* paquets */
+.paqs{display:grid;gap:12px}
+.paq{position:relative;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:var(--r);padding:16px 16px 14px}
+.paq.sel{border-color:var(--o);box-shadow:0 0 0 4px rgba(226,112,43,.14)}
+.paq .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.paq h3{font-size:1.06rem;font-weight:800}
+.paq .dur{color:var(--mut);font-size:.86rem}
+.paq .prix{font-weight:900;font-size:1.15rem;color:var(--o);white-space:nowrap}
+.paq .prix small{font-size:.72rem;font-weight:700;color:var(--mut)}
+.paq ul{list-style:none;margin-top:10px;display:grid;gap:4px;font-size:.9rem;color:#3c342d}
+.paq li::before{content:"✓ ";color:var(--ok);font-weight:900}
+.badge{position:absolute;top:-10px;right:14px;background:var(--ink);color:#fff;font-size:.7rem;font-weight:800;padding:4px 9px;border-radius:99px;letter-spacing:.2px}
+
+/* heures */
+.heures{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.h{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 6px;text-align:center;font-weight:800}
+.h small{display:block;font-weight:600;color:var(--mut);font-size:.74rem}
+.h.sel{border-color:var(--o);background:var(--soft)}
+.h:disabled{opacity:.35;text-decoration:line-through;cursor:default}
+
+/* formulaire */
+form{display:grid;gap:14px}
+label{display:grid;gap:6px;font-weight:700;font-size:.92rem}
+label span{font-weight:500;color:var(--mut);font-size:.8rem}
+input,select,textarea{width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;font-size:1rem;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--o)}
+textarea{min-height:88px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info{background:var(--soft);border-radius:14px;padding:12px 14px;font-size:.9rem;color:#5a3a22}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:500;font-size:.9rem}
+.check input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--o)}
+
+/* récap */
+.recap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.recap div{display:flex;justify-content:space-between;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:.95rem}
+.recap div:last-child{border:0;background:var(--soft);font-weight:900}
+.recap span:first-child{color:var(--mut)}
+.recap span:last-child{text-align:right;font-weight:700}
+.done{text-align:center;padding:30px 0}
+.done .big{font-size:3rem}
+.done h2{margin:8px 0}
+
+/* barre d'action */
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(251,247,243,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 0 calc(12px + env(safe-area-inset-bottom));z-index:9;display:none}
+.bar.on{display:block}
+.bar .wrap{display:flex;align-items:center;gap:12px}
+.bar .sum{flex:1;font-size:.82rem;color:var(--mut);line-height:1.25}
+.bar .sum b{display:block;color:var(--ink);font-size:1rem}
+.btn{background:var(--o);color:#fff;font-weight:800;padding:15px 22px;border-radius:14px;font-size:1rem;min-width:150px;box-shadow:0 8px 20px rgba(226,112,43,.3)}
+.btn:disabled{background:#d9cfc6;box-shadow:none;cursor:default}
+.btn.wa{background:#1FA855;box-shadow:0 8px 20px rgba(31,168,85,.3);width:100%}
+.btn.sec{background:var(--card);color:var(--ink);border:1.5px solid var(--line);box-shadow:none;width:100%}
+
+footer{text-align:center;color:var(--mut);font-size:.78rem;padding:18px 0 30px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo"><b>OCD</b><span>Live</span></div>
+    <div class="steps" id="steps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 0. Accueil : les deux catégories -->
+  <section class="step on" id="s0">
+    <div class="hero">
+      <div class="direct"><i></i> EN DIRECT</div>
+      <h1>Viens vendre <em>en live</em><br>devant toute l'Afrique</h1>
+      <p>Place ton produit, ton numéro et ton adresse devant des milliers de clients.</p>
+    </div>
+    <div class="choix">
+      <button class="cat" data-cat="presentiel">
+        <div class="ic">📍</div>
+        <div><h2>Live en présentiel</h2><p>Dans notre studio à Lomé, avec la régie OCD Live.</p></div>
+        <div class="go">›</div>
+      </button>
+      <button class="cat" data-cat="distance">
+        <div class="ic">🌍</div>
+        <div><h2>Live à distance</h2><p>Depuis ta boutique, partout en Afrique ou dans le monde. Une assistante t'accompagne.</p></div>
+        <div class="go">›</div>
+      </button>
+    </div>
+    <div class="atouts"><span>🎥 Régie professionnelle</span><span>📲 Diffusé sur House of Challenge</span><span>🛍️ Tout se vend</span></div>
+  </section>
+
+  <!-- 1. Date -->
+  <section class="step" id="s1">
+    <button class="back" data-back>‹ Retour</button>
+    <div class="pill" id="pillCat"></div>
+    <h2>Choisis ta date</h2>
+    <p class="sub">Les lives commencent le 1er décembre.</p>
+    <div class="cal"><div class="mois" id="moisNom"></div><div class="grid7" id="cal"></div></div>
+  </section>
+
+  <!-- 2. Paquet -->
+  <section class="step" id="s2">
+    <button class="back" data-back>‹ Retour</button>
+    <h2>Choisis ton paquet</h2>
+    <p class="sub">Plus tu restes longtemps, moins tu paies l'heure.</p>
+    <div class="paqs" id="paqs"></div>
+  </section>
+
+  <!-- 3. Heure -->
+  <section class="step" id="s3">
+    <button class="back" data-back>‹ Retour</button>
+    <h2>Choisis ton heure</h2>
+    <p class="sub" id="subHeure"></p>
+    <div class="heures" id="heures"></div>
+  </section>
+
+  <!-- 4. Infos -->
+  <section class="step" id="s4">
+    <button class="back" data-back>‹ Retour</button>
+    <h2>Toi et ton business</h2>
+    <p class="sub">Ces infos servent à préparer ton live et à te présenter aux clients.</p>
+    <form id="form" novalidate>
+      <label>Ton nom complet<input name="nom" required autocomplete="name" placeholder="Ex : Ama Mensah"></label>
+      <div class="row2">
+        <label>WhatsApp<input name="tel" required type="tel" autocomplete="tel" placeholder="+228 90 00 00 00"></label>
+        <label>Pays<input name="pays" required placeholder="Togo" value="Togo"></label>
+      </div>
+      <label>Ville et adresse de ta boutique <span>Les clients la verront pendant le live</span><input name="adresse" required placeholder="Ex : Bè, Lomé, près du marché"></label>
+      <label>Nom de ton business<input name="business" required placeholder="Ex : Chez Ama Délices"></label>
+      <label>Ton activité<select name="activite" required id="activite"><option value="">Choisis…</option></select></label>
+      <label>Ce que tu vas vendre pendant le live <span>Produits, prix, quantités</span><textarea name="produits" required placeholder="Ex : 40 bols de riz sauce arachide à 1 000 FCFA"></textarea></label>
+      <label>Ta page Facebook, TikTok ou Instagram <span>Facultatif</span><input name="reseaux" placeholder="@monbusiness"></label>
+      <div class="info" id="infoDistance" hidden>🌍 Live à distance : une assistante OCD Live à Lomé t'accompagne pendant tout ton live. Prévois une bonne connexion internet et un téléphone chargé.</div>
+      <label class="check"><input type="checkbox" name="ok" required>J'accepte que mon nom, mon numéro et mon adresse soient affichés pendant le live.</label>
+    </form>
+  </section>
+
+  <!-- 5. Récapitulatif -->
+  <section class="step" id="s5">
+    <button class="back" data-back>‹ Retour</button>
+    <h2>Vérifie ta réservation</h2>
+    <p class="sub">Envoie-la : l'équipe OCD Live te confirme ton créneau et le paiement.</p>
+    <div class="recap" id="recap"></div>
+    <div style="display:grid;gap:10px;margin-top:16px">
+      <button class="btn wa" id="envoyerWa">Envoyer ma réservation sur WhatsApp</button>
+      <button class="btn sec" id="envoyerMail">L'envoyer par e-mail</button>
+    </div>
+  </section>
+
+  <!-- 6. Merci -->
+  <section class="step" id="s6">
+    <div class="done">
+      <div class="big">🎉</div>
+      <h2>Réservation envoyée !</h2>
+      <p class="sub">L'équipe OCD Live te répond très vite pour confirmer ton créneau et le paiement (T-Money, Flooz ou espèces au studio).</p>
+      <button class="btn" onclick="location.reload()">Faire une autre réservation</button>
+    </div>
+  </section>
+
+</main>
+
+<div class="bar" id="bar">
+  <div class="wrap">
+    <div class="sum" id="sum"></div>
+    <button class="btn" id="next" disabled>Continuer</button>
+  </div>
+</div>
+
+<footer>OCD Live · Lomé, Togo · Proposition réalisée par Mohamed Ali Camara</footer>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const fmt = n => n.toLocaleString("fr-FR").replace(/ | /g," ") + " " + OCD.devise;
+  const jours = ["lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"];
+  const S = { cat:null, date:null, paq:null, heure:null, infos:null };
+  let cur = 0;
+
+  /* navigation */
+  function show(n){
+    document.querySelectorAll(".step").forEach(s=>s.classList.remove("on"));
+    $("#s"+n).classList.add("on"); cur = n;
+    document.querySelectorAll("#steps i").forEach((d,i)=>d.classList.toggle("on", i < n || (n===0 && i===0)));
+    window.scrollTo(0,0); refreshBar();
+  }
+  document.querySelectorAll("[data-back]").forEach(b=>b.onclick=()=>show(Math.max(0,cur-1)));
+
+  /* 0. catégorie */
+  document.querySelectorAll(".cat").forEach(b=>b.onclick=()=>{
+    S.cat = b.dataset.cat;
+    $("#pillCat").textContent = S.cat==="presentiel" ? "📍 Présentiel à Lomé" : "🌍 À distance";
+    $("#infoDistance").hidden = S.cat!=="distance";
+    show(1);
+  });
+
+  /* 1. calendrier */
+  const d0 = new Date(OCD.annee, OCD.mois, 1);
+  $("#moisNom").textContent = d0.toLocaleDateString("fr-FR",{month:"long",year:"numeric"});
+  const cal = $("#cal");
+  ["L","M","M","J","V","S","D"].forEach(x=>cal.insertAdjacentHTML("beforeend",`<div class="dn">${x}</div>`));
+  const decal = (d0.getDay()+6)%7, nb = new Date(OCD.annee, OCD.mois+1, 0).getDate();
+  for(let i=0;i<decal;i++) cal.insertAdjacentHTML("beforeend","<div></div>");
+  const auj = new Date(); auj.setHours(0,0,0,0);
+  for(let j=1;j<=nb;j++){
+    const d = new Date(OCD.annee, OCD.mois, j);
+    const b = document.createElement("button");
+    b.className="day"; b.textContent=j;
+    b.disabled = j < OCD.premierJour || d < auj;
+    b.onclick=()=>{ S.date=d; S.heure=null; cal.querySelectorAll(".day").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); refreshBar(); };
+    cal.appendChild(b);
+  }
+
+  /* 2. paquets */
+  const paqs = $("#paqs");
+  OCD.paquets.forEach(p=>{
+    const b = document.createElement("button");
+    b.className="paq";
+    const h = p.duree>=60 ? (Math.floor(p.duree/60)+" h"+(p.duree%60? " "+(p.duree%60):"")) : p.duree+" min";
+    const parHeure = Math.round(p.prix / (p.duree/60) / p.lives / 100)*100;
+    b.innerHTML = `${p.badge?`<span class="badge">${p.badge}</span>`:""}
+      <div class="top"><div><h3>${p.nom}</h3><div class="dur">${p.lives>1? p.lives+" lives de "+h : h+" de live"}</div></div>
+      <div class="prix">${fmt(p.prix)}${p.parHeure?`<br><small>soit ${fmt(parHeure)} / heure</small>`:""}</div></div>
+      <ul>${p.plus.map(x=>`<li>${x}</li>`).join("")}</ul>`;
+    b.onclick=()=>{ S.paq=p; S.heure=null; paqs.querySelectorAll(".paq").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); refreshBar(); };
+    paqs.appendChild(b);
+  });
+
+  /* 3. heures */
+  const toMin = t => +t.slice(0,2)*60 + +t.slice(3);
+  const toH = m => String(Math.floor(m/60)).padStart(2,"0")+"h"+String(m%60).padStart(2,"0");
+  function buildHeures(){
+    const H = $("#heures"); H.innerHTML="";
+    $("#subHeure").textContent = "Le " + longDate(S.date) + " · " + S.paq.nom;
+    OCD.creneaux.forEach(t=>{
+      const deb = toMin(t), fin = deb + S.paq.duree;
+      const b = document.createElement("button");
+      b.className="h"; b.innerHTML = `${toH(deb)}<small>→ ${toH(fin)}</small>`;
+      b.disabled = fin > 22*60;
+      b.onclick=()=>{ S.heure={deb,fin}; H.querySelectorAll(".h").forEach(x=>x.classList.remove("sel")); b.classList.add("sel"); refreshBar(); };
+      H.appendChild(b);
+    });
+  }
+  const longDate = d => jours[(d.getDay()+6)%7]+" "+d.toLocaleDateString("fr-FR",{day:"numeric",month:"long"});
+
+  /* 4. formulaire */
+  const sel = $("#activite");
+  OCD.activites.forEach(a=>sel.insertAdjacentHTML("beforeend",`<option>${a}</option>`));
+  const form = $("#form");
+  form.addEventListener("input", refreshBar);
+  form.addEventListener("change", refreshBar);
+  const formOk = () => [...form.querySelectorAll("[required]")].every(e=> e.type==="checkbox" ? e.checked : e.value.trim().length>1);
+
+  /* 5. récap + message */
+  function message(){
+    const f = Object.fromEntries(new FormData(form));
+    const lieu = S.cat==="presentiel" ? "en présentiel au studio de Lomé" : "à distance, depuis "+f.pays;
+    return [
+      "Nouvelle réservation OCD Live",
+      "",
+      `${f.nom} (${f.business}, ${f.activite}) réserve un live ${lieu}.`,
+      `Date : ${longDate(S.date)} ${OCD.annee}, de ${toH(S.heure.deb)} à ${toH(S.heure.fin)}`,
+      `Paquet : ${S.paq.nom}, ${fmt(S.paq.prix)}${S.paq.lives>1? " ("+S.paq.lives+" lives à partir de cette date)":""}`,
+      "",
+      `Produits : ${f.produits}`,
+      `Adresse : ${f.adresse}, ${f.pays}`,
+      `WhatsApp : ${f.tel}`,
+      f.reseaux ? `Réseaux : ${f.reseaux}` : ""
+    ].filter((l,i,a)=>l!=="" || a[i-1]!=="").join("\n").trim();
+  }
+  function buildRecap(){
+    const f = Object.fromEntries(new FormData(form));
+    const rows = [
+      ["Type de live", S.cat==="presentiel" ? "Présentiel · Lomé" : "À distance · "+f.pays],
+      ["Date", longDate(S.date)],
+      ["Heure", toH(S.heure.deb)+" → "+toH(S.heure.fin)],
+      ["Paquet", S.paq.nom],
+      ["Business", f.business+" · "+f.activite],
+      ["Contact", f.nom+" · "+f.tel],
+      ["Total", fmt(S.paq.prix)]
+    ];
+    $("#recap").innerHTML = rows.map(([a,b])=>`<div><span>${a}</span><span>${esc(b)}</span></div>`).join("");
+  }
+  const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  $("#envoyerWa").onclick=()=>{ window.open("https://wa.me/"+OCD.whatsapp+"?text="+encodeURIComponent(message()),"_blank"); show(6); };
+  $("#envoyerMail").onclick=()=>{ location.href="mailto:"+OCD.email+"?subject="+encodeURIComponent("Réservation OCD Live")+"&body="+encodeURIComponent(message()); show(6); };
+
+  /* barre du bas */
+  function refreshBar(){
+    const bar=$("#bar"), next=$("#next"), sum=$("#sum");
+    bar.classList.toggle("on", cur>=1 && cur<=4);
+    const bits=[];
+    if(S.date) bits.push(longDate(S.date));
+    if(S.paq) bits.push(S.paq.nom);
+    if(S.heure) bits.push(toH(S.heure.deb));
+    sum.innerHTML = S.paq ? `<b>${fmt(S.paq.prix)}</b>${bits.join(" · ")}` : `<b>${bits[0]||"Ta réservation"}</b>${S.cat==="distance"?"À distance":"Présentiel à Lomé"}`;
+    const ok = {1:!!S.date, 2:!!S.paq, 3:!!S.heure, 4:formOk()}[cur];
+    next.disabled = !ok;
+    next.textContent = cur===4 ? "Voir le récapitulatif" : "Continuer";
+  }
+  $("#next").onclick=()=>{
+    if(cur===2) buildHeures();
+    if(cur===4) buildRecap();
+    show(cur+1);
+  };
+
+  show(0);
+})();
+</script>
+</body>
+</html>
